@@ -8,15 +8,29 @@ export default class App extends Component {
     super();
 
     this.state = {
-      cards: {},
+      card: null,
+      cardCreated: false,
     };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, { type: 'REQUEST_CARD' }, ({ payload: card }) => {
+        console.log(card);
+        this.setState({ card, cardCreated: true });
+      });
+    });
   }
 
   render() {
-    const { cards } = this.state;
+    const { card, cardCreated } = this.state;
     return (
       <Main
-        cards={cards}
+        handleClick={this.handleClick}
+        card={card}
+        cardCreated={cardCreated}
       />
     );
   }
