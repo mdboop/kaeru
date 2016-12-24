@@ -1,6 +1,7 @@
 {
-  "name": "anki-to-jisho",
+  "name": "kaeru",
   "version": "0.0.1",
+  "license": "MIT",
   "description": "a chrome extension for creating anki flashcards from jisho.org results",
   "scripts": {
     "dev": "webpack-dev-server --content-base dist --inline --hot",
