@@ -1,11 +1,9 @@
 import {
-  cardBuilder,
-  downloadCard,
+  cardRequestHandler,
 } from './Card';
 
 const requestMap = {
-  REQUEST_CARD: cardBuilder,
-  DOWNLOAD_CARD: downloadCard,
+  REQUEST_CARD: cardRequestHandler,
 };
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

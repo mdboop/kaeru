@@ -1,14 +1,10 @@
+/* eslint-disable no-param-reassign */
 
-import { genStandardFileName } from './utils';
+import { walk } from '../utils/dom-walker';
 
-const cloneNode = (node) => node.cloneNode(true);
+const findExactBlock = () => document.querySelector('.exact_block');
 
-const findExactBlock = () =>
-  document.querySelector('.exact_block');
-
-const findResultTitle = node => node.querySelector('.text');
-
-const getPartOfSpeech = node => node.querySelector('.meaning-tags');
+// const getPartOfSpeech = node => node.querySelector('.meaning-tags');
 
 const getSeeAlsoTags = node => node.querySelectorAll('.tags-see_also');
 
@@ -16,22 +12,61 @@ const getFrontText = node => node.querySelector('.concept_light-representation')
 
 const removeNodes = nodes => nodes.forEach(node => node.remove());
 
-const Node = (node) => ({
-  map: (f) => Node(f(node)),
-  fold: (f) => f(node),
+const addListStyles = (root) => walk(root, (n) => {
+  if (n.tagName === 'LI') {
+    n.style.cssText = 'display: inline-block;';
+  }
 });
 
-export const cardBuilder = ({ sendResponse }) => {
-  const exactBlock = findExactBlock().cloneNode(true);
+const styleMeaningTags = (node) => node.querySelectorAll('.meanings-wrapper').forEach((n) => {
+  n.querySelector('.meaning-tags').style.cssText = 'font-size: 12px; color: #999;';
+});
+
+const addJapaneseFontFamily = (root) => walk(root, (n) => {
+  if (n.classList.contains('japanese')) {
+    n.style.cssText = `font-family:
+      "HiraKakuPro-W3",
+      "Hiragino Kaku Gothic Pro W3",
+      "Hiragino Kaku Gothic Pro",
+      "ヒラギノ角ゴ Pro W3",
+      "メイリオ",
+      Meiryo,
+      "游ゴシック",
+      YuGothic,
+      "ＭＳ Ｐゴシック",
+      "MS PGothic",
+      "ＭＳ ゴシック",
+      "MS Gothic",
+      sans-serif;
+    `;
+  }
+});
+
+const addFuriganaStyles = (root) => walk(root, (n) => {
+  if (n.classList.contains('furigana')) {
+    n.style.cssText = 'display: block; font-size: 12px;';
+  }
+});
+
+/**
+ * Card Builder
+ */
+
+const buildCard = () => {
+  const root = findExactBlock().cloneNode(true);
 
   // mutative nonsense to improve
-  removeNodes(getSeeAlsoTags(exactBlock));
-  exactBlock.querySelector('h4').remove();
-  exactBlock.querySelectorAll('a').forEach(node => node.remove());
+  removeNodes(getSeeAlsoTags(root));
+  addListStyles(root);
+  addFuriganaStyles(root);
+  addJapaneseFontFamily(root);
+  styleMeaningTags(root);
+  root.querySelector('h4').remove();
+  root.querySelectorAll('a').forEach(node => node.remove());
 
-  const frontNode = getFrontText(exactBlock);
+  const frontNode = getFrontText(root);
   const cardFront = frontNode.textContent.trim();
-  const cardBack = exactBlock.innerHTML
+  const cardBack = root.innerHTML
     // TODO: change all these comments to chainable functions.
     // tabs -> space
     .replace(/\t/g, ' ')
@@ -45,20 +80,7 @@ export const cardBuilder = ({ sendResponse }) => {
     .trim();
   const card = `${cardFront} "${cardBack}"`;
 
-  sendResponse({ payload: card });
+  return card;
 };
 
-export const downloadCard = ({ sendResponse, request }) => {
-  const card = request.payload;
-  const blob = new Blob([card], { type: 'text/plain' });
-  const url = window.URL.createObjectURL(blob);
-
-  const downloadLink = document.createElement('a');
-
-  downloadLink.href = url;
-  downloadLink.download = genStandardFileName('txt');
-
-  downloadLink.click();
-
-  sendResponse({ payload: true });
-};
+export const cardRequestHandler = ({ sendResponse }) => sendResponse({ payload: buildCard() });

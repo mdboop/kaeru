@@ -1,4 +1,4 @@
-import { genStandardFileName } from './utils';
+import { genStandardFileName } from './filenames';
 
 describe('file name generator', () => {
   it('should return the correct string', () => {

@@ -1,10 +1,14 @@
 
 import React, { Component } from 'react';
 
+import { createDownloadUrl } from '../../common/Download';
+import { fromNullable } from '../../utils/functional-helpers';
+
 import Main from '../components/Main';
 
 import './reset.scss';
 import './App.scss';
+
 
 export default class App extends Component {
   constructor() {
@@ -12,24 +16,21 @@ export default class App extends Component {
 
     this.state = {
       card: null,
+      url: null,
       cardCreated: false,
     };
 
     this.handleRequestClick = this.handleRequestClick.bind(this);
-    this.handleDownloadClick = this.handleDownloadClick.bind(this);
   }
 
   handleRequestClick() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       chrome.tabs.sendMessage(tabs[0].id, { type: 'REQUEST_CARD' }, ({ payload: card }) => {
-        this.setState({ card, cardCreated: true });
-      });
-    });
-  }
+        const url = fromNullable(card)
+        .fold(() => console.log('`payload` was not defined in downloadCard message request'), createDownloadUrl);
 
-  handleDownloadClick() {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, { type: 'DOWNLOAD_CARD', payload: this.state.card });
+        this.setState({ card, cardCreated: true, url });
+      });
     });
   }
 
@@ -37,8 +38,8 @@ export default class App extends Component {
     const { cardCreated } = this.state;
     return (
       <Main
+        url={this.state.url}
         handleRequestClick={this.handleRequestClick}
-        handleDownloadClick={this.handleDownloadClick}
         cardCreated={cardCreated}
       />
     );

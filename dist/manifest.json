@@ -8,7 +8,7 @@
     "default_popup": "index.html"
   },
   "permissions": [
-    "debugger",
+    "downloads",
     "storage",
     "tabs",
     "storage"
