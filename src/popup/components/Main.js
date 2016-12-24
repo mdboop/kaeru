@@ -1,22 +1,33 @@
 import React, { PropTypes } from 'react';
 
-export default function Main({ handleClick, card, cardCreated }) {
+import './Main.scss';
 
-  const download = cardCreated ? <a href={card}>download!</a> : null;
+export default function Main(props) {
+  const {
+    handleRequestClick,
+    handleDownloadClick,
+    cardCreated,
+  } = props;
+
   return (
-    <div>
-      <h1>kaeru</h1>
-      <div>
-        <div>{cardCreated ? 'card created!' : ''}</div>
-        <button onClick={handleClick}>make card</button>
-        {download}
-      </div>
+    <div className="main-container">
+      <header>
+        <h1>kaeru</h1>
+      </header>
+      <main>
+        <p className="message">{cardCreated ? 'card created!' : ''}</p>
+        <button tabIndex="-1" className="request-card" onClick={handleRequestClick}>make card</button>
+        <button disabled={!cardCreated} className="download-card" onClick={handleDownloadClick}>download!</button>
+      </main>
+      <footer>
+        <p>Made with ❤️ by <a tabIndex="-1" href="https://github.com/mdboop">mdboop</a>.</p>
+      </footer>
     </div>
   );
 }
 
 Main.propTypes = {
   cardCreated: PropTypes.bool,
-  card: PropTypes.object,
-  handleClick: PropTypes.func,
+  handleRequestClick: PropTypes.func,
+  handleDownloadClick: PropTypes.func,
 };

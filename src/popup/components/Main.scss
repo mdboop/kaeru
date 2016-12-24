@@ -1,0 +1,91 @@
+.main-container {
+  min-height: 150px;
+  min-width: 300px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  button {
+    margin: 0.5rem;
+  }
+
+  button:disabled {
+    border: 1px solid #B3B3B3;
+    border-radius: 2px;
+    color: #B3B3B3;
+    cursor: default;
+
+    &:hover {
+      border: 1px solid #B3B3B3;
+      background-color: #FFF;
+      border-radius: 2px;
+      color: #B3B3B3;
+      cursor: default;
+    }
+  }
+
+  .message {
+    text-align: center;
+    margin: 8px 0;
+    height: 1rem;
+    font-size: 0.85rem;
+
+  }
+
+  .request-card {
+    min-width: 30px;
+    background-color: #FFF;
+    border: 1px solid #EA605D;
+    color: #EA605D;
+    border-radius: 2px;
+
+    &:hover {
+      color: #FFF;
+      background-color: #EA605D;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+  }
+
+  .download-card {
+    min-width: 30px;
+    background-color: #FFF;
+    border: 1px solid #48ba70;
+    color: #48ba70;
+    border-radius: 2px;
+    transition: all 0.2s;
+
+    &:hover {
+      color: #FFF;
+      background-color: #48ba70;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+  }
+
+  footer {
+    p {
+      margin: 12px 0;
+      color: #B3B3B3;
+      font-size: 0.75rem;
+    }
+    a {
+      color: #B3B3B3;
+
+      &:visited {
+        color: #7B7A7A;
+      }
+    }
+  }
+}
