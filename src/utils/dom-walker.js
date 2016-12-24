@@ -1,8 +1,16 @@
 // :,( mutation, but let's leave it for now.
-export const walk = (n, cb) => {
+export const walk = (cb, n) => {
   cb(n);
   if (n.children.length) {
-    Array.prototype.forEach.call(n.children, node => walk(node, cb));
+    Array.prototype.forEach.call(n.children, node => walk(cb, node));
+  }
+  return n;
+};
+
+export const filterWalk = (cb, predicate, n) => {
+  cb(n);
+  if (n.children.length && predicate(n)) {
+    Array.prototype.forEach.call(n.children, node => walk(cb, predicate, node));
   }
   return n;
 };

@@ -1,6 +1,6 @@
 {
   "name": "kaeru",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Matthew Brooks <mdeanbrooks@gmail.com> (https://github.com/mdboop)",
   "license": "MIT",
   "description": "a chrome extension for creating anki flashcards from jisho.org results",

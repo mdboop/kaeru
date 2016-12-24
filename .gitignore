@@ -2,3 +2,5 @@ coverage
 dist/*.js
 node_modules
 .DS_Store
+dist.crx
+dist.pem

@@ -1,10 +1,8 @@
 /* eslint-disable no-param-reassign */
 
-import { walk } from '../utils/dom-walker';
+import _ from 'ramda';
 
 const findExactBlock = () => document.querySelector('.exact_block');
-
-// const getPartOfSpeech = node => node.querySelector('.meaning-tags');
 
 const getSeeAlsoTags = node => node.querySelectorAll('.tags-see_also');
 
@@ -12,55 +10,39 @@ const getFrontText = node => node.querySelector('.concept_light-representation')
 
 const removeNodes = nodes => nodes.forEach(node => node.remove());
 
-const addListStyles = (root) => walk(root, (n) => {
-  if (n.tagName === 'LI') {
-    n.style.cssText = 'display: inline-block;';
-  }
-});
+const applyStyleToAllNodes = ({ query, style }) => (node) => {
+  node.querySelectorAll(query).forEach(n => { n.style.cssText = style; });
+  return node;
+};
 
-const styleMeaningTags = (node) => node.querySelectorAll('.meanings-wrapper').forEach((n) => {
-  n.querySelector('.meaning-tags').style.cssText = 'font-size: 12px; color: #999;';
+const styleListItems = applyStyleToAllNodes({ query: 'li', style: 'display: inline-block' });
+const styleMeaningTags = applyStyleToAllNodes({ query: '.meanings-wrapper', style: 'font-size: 12px; color: #999;' });
+const styleUsageTags = applyStyleToAllNodes({ query: '.sense-tag.tag-tag', style: 'font-size: 14px; color: #999;' });
+const styleCategoryTags = applyStyleToAllNodes({ query: '.concept_light-tag.label', style: 'font-size: 14px;' });
+const styleJapaneseText = applyStyleToAllNodes({ query: '.japanese', style: `font-family:
+  "HiraKakuPro-W3", "Hiragino Kaku Gothic Pro W3", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3",
+  "メイリオ", Meiryo, "游ゴシック", YuGothic, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", sans-serif;`,
 });
-
-const addJapaneseFontFamily = (root) => walk(root, (n) => {
-  if (n.classList.contains('japanese')) {
-    n.style.cssText = `font-family:
-      "HiraKakuPro-W3",
-      "Hiragino Kaku Gothic Pro W3",
-      "Hiragino Kaku Gothic Pro",
-      "ヒラギノ角ゴ Pro W3",
-      "メイリオ",
-      Meiryo,
-      "游ゴシック",
-      YuGothic,
-      "ＭＳ Ｐゴシック",
-      "MS PGothic",
-      "ＭＳ ゴシック",
-      "MS Gothic",
-      sans-serif;
-    `;
-  }
-});
-
-const addFuriganaStyles = (root) => walk(root, (n) => {
-  if (n.classList.contains('furigana')) {
-    n.style.cssText = 'display: block; font-size: 12px;';
-  }
-});
-
+const styleFurigana = applyStyleToAllNodes({ query: '.furigana', style: 'display: block; font-size: 12px;' });
 /**
  * Card Builder
  */
+
+const applyAllStyles = _.compose(
+  styleCategoryTags,
+  styleUsageTags,
+  styleMeaningTags,
+  styleJapaneseText,
+  styleFurigana,
+  styleListItems
+);
 
 const buildCard = () => {
   const root = findExactBlock().cloneNode(true);
 
   // mutative nonsense to improve
   removeNodes(getSeeAlsoTags(root));
-  addListStyles(root);
-  addFuriganaStyles(root);
-  addJapaneseFontFamily(root);
-  styleMeaningTags(root);
+  applyAllStyles(root);
   root.querySelector('h4').remove();
   root.querySelectorAll('a').forEach(node => node.remove());
 
