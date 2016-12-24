@@ -15,6 +15,4 @@ const formatDateString = (s) => s.replace(/(\/|,?\s+)/g, '-');
 
 const insertDate = (s) => `kaeru-card_${s}`;
 
-const genStandardFileName = _.compose(insertDate, formatDateString, genNumericDateString, appendExtension);
-
-export default genStandardFileName;
+export const genStandardFileName = _.compose(insertDate, formatDateString, genNumericDateString, appendExtension);

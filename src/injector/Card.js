@@ -1,4 +1,6 @@
 
+import { genStandardFileName } from './utils';
+
 const cloneNode = (node) => node.cloneNode(true);
 
 const findExactBlock = () =>
@@ -21,16 +23,25 @@ const Node = (node) => ({
 
 export const cardBuilder = ({ sendResponse }) => {
   const exactBlock = findExactBlock().cloneNode(true);
+
+  // mutative nonsense to improve
   removeNodes(getSeeAlsoTags(exactBlock));
   exactBlock.querySelector('h4').remove();
   exactBlock.querySelectorAll('a').forEach(node => node.remove());
+
   const frontNode = getFrontText(exactBlock);
   const cardFront = frontNode.textContent.trim();
   const cardBack = exactBlock.innerHTML
+    // TODO: change all these comments to chainable functions.
+    // tabs -> space
     .replace(/\t/g, ' ')
+    // add extra double quotes for anki
     .replace(/"/g, '""')
+    // strip whitespace from between tags
     .replace(/>\s+</g, '><')
+    // trim whitespace between tags with text
     .replace(/>\s+(.+)\s+</g, '>$1<')
+    // trim whitespace at the beginning and end
     .trim();
   const card = `${cardFront} "${cardBack}"`;
 
@@ -41,9 +52,13 @@ export const downloadCard = ({ sendResponse, request }) => {
   const card = request.payload;
   const blob = new Blob([card], { type: 'text/plain' });
   const url = window.URL.createObjectURL(blob);
+
   const downloadLink = document.createElement('a');
+
   downloadLink.href = url;
-  downloadLink.download = `${genId()}.txt`;
+  downloadLink.download = genStandardFileName('txt');
+
   downloadLink.click();
+
   sendResponse({ payload: true });
 };
