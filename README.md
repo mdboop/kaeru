@@ -50,3 +50,9 @@ This is a mad work-in-progress right now. Lots to do!
 5. Continue reducing friction from jisho -> anki
 6. Add configuration options (only first entry, no furigana, etc.)
 7. Tests! (lol should be way higher)
+
+## Credits and Thanks
+
+A big thanks to [Kim Ahlström](https://twitter.com/kimtaro) of [jisho.org](http://jisho.org) and the fine folks at [Anki](https://ankiweb.net/about)!
+
+__icon:__ Created by Stewart Lamb Cromar from the Noun Project
