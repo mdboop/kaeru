@@ -8,8 +8,8 @@ export const walk = (cb, n) => {
 };
 
 export const filterWalk = (cb, predicate, n) => {
-  cb(n);
   if (n.children.length && predicate(n)) {
+    cb(n);
     Array.prototype.forEach.call(n.children, node => walk(cb, predicate, node));
   }
   return n;
