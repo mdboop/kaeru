@@ -2,7 +2,7 @@
 
 ## What is kaeru?
 
-kaeru is a chrome extension for turning jisho.org.
+kaeru is a chrome extension for turning jisho.org results into Anki SRS flashcards.
 
 ## Why 'kaeru'?
 
@@ -47,7 +47,7 @@ This is a mad work-in-progress right now. Lots to do!
 2. Cleanup the html markup before exporting
 3. Make everything way more FP
 4. Fix anki template and figure out how to distribute
-5. Continue reducing friction from jisho -> anki
+5. Continue reducing friction from jisho -> anki (too many clicks required in anki)
 6. Add configuration options (only first entry, no furigana, etc.)
 7. Tests! (lol should be way higher)
 
