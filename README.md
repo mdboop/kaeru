@@ -10,7 +10,7 @@ kaeru is a chrome extension for turning jisho.org results into Anki SRS flashcar
 
 ## How can I get it?
 
-It will be available for free in the chrome store very shortly. Right now, you can use it as an unpacked extension. by following the steps in Development.
+It will be available for free in the chrome store very shortly. Right now, you can use it as an unpacked extension by following the steps in Development.
 
 ## Using it
 
