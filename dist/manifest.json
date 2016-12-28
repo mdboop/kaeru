@@ -10,8 +10,7 @@
   "permissions": [
     "downloads",
     "storage",
-    "tabs",
-    "storage"
+    "tabs"
   ],
   "icons": {
     "16": "assets/icon16.png",

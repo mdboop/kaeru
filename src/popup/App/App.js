@@ -1,8 +1,7 @@
 
 import React, { Component } from 'react';
 
-import { createDownloadUrl } from '../../common/Download';
-import { fromNullable } from '../../utils/functional-helpers';
+import { tryCatch } from '../../utils/functional-helpers';
 
 import Main from '../components/Main';
 
@@ -15,32 +14,50 @@ export default class App extends Component {
     super();
 
     this.state = {
-      card: null,
-      url: null,
-      cardCreated: false,
+      cards: [],
     };
 
     this.handleRequestClick = this.handleRequestClick.bind(this);
+    this.handleDeleteCard = this.handleDeleteCard.bind(this);
+    this.handleClearCards = this.handleClearCards.bind(this);
+  }
+
+  componentDidMount() {
+    tryCatch(() => JSON.parse(window.localStorage.kaeruCards))
+      .fold(
+        () => this.setState({ cards: [] }),
+        (cards) => this.setState({ cards })
+      );
   }
 
   handleRequestClick() {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       chrome.tabs.sendMessage(tabs[0].id, { type: 'REQUEST_CARD' }, ({ payload: card }) => {
-        const url = fromNullable(card)
-        .fold(() => console.log('`payload` was not defined in downloadCard message request'), createDownloadUrl);
-
-        this.setState({ card, cardCreated: true, url });
+        this.setState({ cards: this.state.cards.concat([card]) });
+        window.localStorage.kaeruCards = JSON.stringify(this.state.cards);
       });
     });
   }
 
+  handleDeleteCard(clickedCard) {
+    return () => this.setState({
+      cards: this.state.cards.filter(card => card.split(' ')[0] !== clickedCard),
+    });
+  }
+
+  handleClearCards() {
+    this.setState({ cards: [] });
+    window.localStorage.kaeruCards = '';
+  }
+
   render() {
-    const { cardCreated } = this.state;
+    const { cards } = this.state;
     return (
       <Main
-        url={this.state.url}
+        cards={cards}
         handleRequestClick={this.handleRequestClick}
-        cardCreated={cardCreated}
+        handleDeleteCard={this.handleDeleteCard}
+        handleClearCards={this.handleClearCards}
       />
     );
   }
