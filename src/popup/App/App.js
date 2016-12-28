@@ -19,6 +19,7 @@ export default class App extends Component {
 
     this.handleRequestClick = this.handleRequestClick.bind(this);
     this.handleDeleteCard = this.handleDeleteCard.bind(this);
+    this.handleClearCards = this.handleClearCards.bind(this);
   }
 
   componentDidMount() {
@@ -27,10 +28,6 @@ export default class App extends Component {
         () => this.setState({ cards: [] }),
         (cards) => this.setState({ cards })
       );
-  }
-
-  componentWillUnmount() {
-    window.localStorage.kaeruCards = JSON.stringify(this.state.cards);
   }
 
   handleRequestClick() {
@@ -48,6 +45,11 @@ export default class App extends Component {
     });
   }
 
+  handleClearCards() {
+    this.setState({ cards: [] });
+    window.localStorage.kaeruCards = '';
+  }
+
   render() {
     const { cards } = this.state;
     return (
@@ -55,6 +57,7 @@ export default class App extends Component {
         cards={cards}
         handleRequestClick={this.handleRequestClick}
         handleDeleteCard={this.handleDeleteCard}
+        handleClearCards={this.handleClearCards}
       />
     );
   }
