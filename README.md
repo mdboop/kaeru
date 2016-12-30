@@ -1,5 +1,3 @@
-#kaeru
-
 ## What is kaeru?
 
 kaeru is a chrome extension for turning jisho.org results into Anki SRS flashcards.
@@ -10,20 +8,25 @@ kaeru is a chrome extension for turning jisho.org results into Anki SRS flashcar
 
 ## How can I get it?
 
-It will be available for free in the chrome store very shortly. Right now, you can use it as an unpacked extension by following the steps in Development.
+You can download it for free in the Google Chrome Store [here](https://chrome.google.com/webstore/detail/kaeru/cmebgpgfghhacebdcblbelplgfoeiiib).
 
 ## Using it
 
 1. search for a word on jisho.org
-2. open the extension, click `make card` then `download card`.
-3. go to your anki deck, then import the card
+2. open the extension, click `make card`
+3. Optionally, you can keep searching for words and adding them to your queue.
+4. Open the extension and click 'download'.
+5. go to your anki deck, then import the card (see notes).
+
+**important:**
+1. Be sure to select "Field separated by: Space" (if it says something else, click it and enter a single space to update).
+2. Check "Allow HTML in fields".
+
+You can also watch the [demo](https://www.youtube.com/watch?v=7yRwmREcgds&t=8s).
 
 *notes:*
 
- * make sure you select `spaces` as the field separator
  * kaeru only supports basic card templates (no reverse cards yet)
- * styling of imported card hasn't been done yet (still figuring that out)
- *
 
 ## Development
 
