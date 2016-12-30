@@ -18,7 +18,8 @@ You can download it for free in the Google Chrome Store [here](https://chrome.go
 4. Open the extension and click 'download'.
 5. go to your anki deck, then import the card (see notes).
 
-**important:**
+**important:**  
+
 1. Be sure to select "Field separated by: Space" (if it says something else, click it and enter a single space to update).
 2. Check "Allow HTML in fields".
 
